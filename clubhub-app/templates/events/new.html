@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Create Event · ClubHub{% endblock %}
+
+{% block content %}
+<section class="form-card">
+  <h2>Create a new event</h2>
+  <p>Capture the essentials and publish instantly to your members.</p>
+
+  {% if errors %}
+    <ul class="form-errors">
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="post" class="stack">
+    <label>Title
+      <input type="text" name="title" value="{{ request.form.title }}" required />
+    </label>
+
+    <label>Description
+      <textarea name="description" rows="4" required>{{ request.form.description }}</textarea>
+    </label>
+
+    <label>Location
+      <input type="text" name="location" value="{{ request.form.location }}" required />
+    </label>
+
+    <div class="grid-two">
+      <label>Starts
+        <input type="datetime-local" name="start_time" value="{{ request.form.start_time }}" required />
+      </label>
+      <label>Ends
+        <input type="datetime-local" name="end_time" value="{{ request.form.end_time }}" required />
+      </label>
+    </div>
+
+    <label>Registration deadline
+      <input type="datetime-local" name="registration_deadline" value="{{ request.form.registration_deadline }}" />
+      <small class="muted">Optional; leave blank for open registration.</small>
+    </label>
+
+    <label>Capacity
+      <input type="number" min="0" name="capacity" value="{{ request.form.capacity }}" />
+      <small class="muted">Optional; leave blank for unlimited seats.</small>
+    </label>
+
+    <button type="submit">Publish event</button>
+  </form>
+</section>
+{% endblock %}
