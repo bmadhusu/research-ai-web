@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }} · ClubHub{% endblock %}
+
+{% block content %}
+<article class="event-detail">
+  <header>
+    <p class="muted">{{ event.location }}</p>
+    <h2>{{ event.title }}</h2>
+  </header>
+  <p>{{ event.description }}</p>
+  <dl class="event-facts">
+    <div>
+      <dt>Starts</dt>
+      <dd>{{ event.start_time.strftime('%b %d, %Y %I:%M %p') }}</dd>
+    </div>
+    <div>
+      <dt>Ends</dt>
+      <dd>{{ event.end_time.strftime('%b %d, %Y %I:%M %p') }}</dd>
+    </div>
+    {% if event.registration_deadline %}
+    <div>
+      <dt>Registration deadline</dt>
+      <dd>{{ event.registration_deadline.strftime('%b %d, %Y %I:%M %p') }}</dd>
+    </div>
+    {% endif %}
+    <div>
+      <dt>Capacity</dt>
+      <dd>
+        {% if event.capacity %}
+          {{ event.capacity }} total ·
+          {% if event.spots_remaining is not none %}
+            {{ event.spots_remaining }} remaining
+          {% else %}
+            —
+          {% endif %}
+        {% else %}
+          Unlimited
+        {% endif %}
+      </dd>
+    </div>
+  </dl>
+</article>
+
+<section class="attendee-panel">
+  <div>
+    <h3>Attendees ({{ attendees|length }})</h3>
+    {% if attendees %}
+      <ul>
+        {% for attendee in attendees %}
+          <li>{{ attendee.attendee_name }} · {{ attendee.attendee_email }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No registrations yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="register-card">
+    <h3>Register</h3>
+    <p>Reserve a spot by sharing your contact details.</p>
+    <form method="post" action="{{ url_for('main.register', event_id=event.id) }}" class="stack">
+      <label>Name
+        <input type="text" name="attendee_name" required />
+      </label>
+      <label>Email
+        <input type="email" name="attendee_email" required />
+      </label>
+      <button type="submit">Join this event</button>
+    </form>
+    {% if event.is_full %}
+      <p class="muted">Registration is closed: event is full.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
