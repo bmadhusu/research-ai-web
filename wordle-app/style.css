@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+    margin-bottom: 20px;
+}
+
+.tile {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#keyboard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-gap: 5px;
+}
+
+.key {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: center;
+}
